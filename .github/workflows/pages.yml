@@ -13,19 +13,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      # pnpm/action-setup lee la versión de "packageManager" en package.json;
+      # los build scripts permitidos (esbuild) viven en pnpm-workspace.yaml.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
-
-      # 👇 Instala pnpm de forma global en el runner
-      - name: Install pnpm
-        run: npm install -g pnpm@10
-
-      # 👇 (opcional, pero recomendado con pnpm 10)
-      - name: Approve builds
-        run: pnpm approve-builds
+          node-version: 22
+          cache: pnpm
 
       - name: Install deps
         run: pnpm install --frozen-lockfile
